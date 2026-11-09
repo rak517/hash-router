@@ -31,9 +31,6 @@ export default function createRouter(container) {
     currentRoute.params.forEach((paramName, index) => {
       urlParams[paramName] = matches[index + 1];
     });
-    console.log(currentRoute.fragmentRegExp);
-    console.log(window.location.hash);
-    console.log(currentRoute);
 
     return currentRoute.component(urlParams);
   };

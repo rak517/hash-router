@@ -1,3 +1,5 @@
+import { posts } from "../data/posts.js";
+
 export function Posts(params) {
-  return `<h1>Posts : ${params.id}<h1>`;
+  return posts.map((post) => `<a href="#/posts/${post.id}">${post.title}</a><br>`).join("");
 }
