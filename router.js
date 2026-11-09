@@ -1,4 +1,4 @@
-export default function createRouter() {
+export default function createRouter(container) {
   let routes = [];
 
   const addRouter = (path, component) => {
@@ -15,9 +15,18 @@ export default function createRouter() {
     return currentRoute.component();
   };
 
+  const listen = () => {
+    window.addEventListener("hashchange", () => {
+      container.innerHTML = navigate();
+    });
+
+    container.innerHTML = navigate();
+  };
+
   return {
     addRouter,
     removeRouter,
+    listen,
     navigate,
   };
 }

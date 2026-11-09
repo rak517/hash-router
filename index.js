@@ -4,13 +4,8 @@ import { About } from "./pages/about.js";
 
 const container = document.querySelector("#app");
 
-const router = createRouter();
+const router = createRouter(container);
 
 router.addRouter("#/", Home);
 router.addRouter("#/about", About);
-
-window.addEventListener("hashchange", () => {
-  container.innerHTML = router.navigate();
-});
-
-container.innerHTML = router.navigate();
+router.listen();
