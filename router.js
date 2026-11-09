@@ -12,6 +12,12 @@ export default function createRouter(container) {
   const navigate = () => {
     const currentRoute = routes.find((route) => route.path === window.location.hash);
 
+    if (currentRoute === undefined) {
+      window.location.hash = "#/";
+
+      return navigate();
+    }
+
     return currentRoute.component();
   };
 
