@@ -41,7 +41,6 @@ export default function createRouter(container) {
 
   return {
     addRouter,
-    removeRouter,
     listen,
     navigate,
   };
