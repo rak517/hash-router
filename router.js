@@ -1,8 +1,16 @@
+import { ROUTE_PARAMETER_REGEXP, URL_REGEXP } from "./constants.js";
+
 export default function createRouter(container) {
   let routes = [];
 
   const addRouter = (path, component) => {
-    routes.push({ path, component });
+    const params = [];
+
+    const parsed = path.replace(ROUTE_PARAMETER_REGEXP, (_, paramName) => {
+      params.push(paramName);
+      return URL_REGEXP;
+    });
+    routes.push({ fragmentRegExp: new RegExp(`^${parsed}$`), component, params });
   };
 
   const removeRouter = (path) => {
@@ -10,7 +18,8 @@ export default function createRouter(container) {
   };
 
   const navigate = () => {
-    const currentRoute = routes.find((route) => route.path === window.location.hash);
+    const urlParams = {};
+    const currentRoute = routes.find((route) => route.fragmentRegExp.test(window.location.hash));
 
     if (currentRoute === undefined) {
       window.location.hash = "#/";
@@ -18,7 +27,15 @@ export default function createRouter(container) {
       return navigate();
     }
 
-    return currentRoute.component();
+    const matches = window.location.hash.match(currentRoute.fragmentRegExp);
+    currentRoute.params.forEach((paramName, index) => {
+      urlParams[paramName] = matches[index + 1];
+    });
+    console.log(currentRoute.fragmentRegExp);
+    console.log(window.location.hash);
+    console.log(currentRoute);
+
+    return currentRoute.component(urlParams);
   };
 
   const listen = () => {
