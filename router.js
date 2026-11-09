@@ -13,10 +13,6 @@ export default function createRouter(container) {
     routes.push({ fragmentRegExp: new RegExp(`^${parsed}$`), component, params });
   };
 
-  const removeRouter = (path) => {
-    routes = routes.filter((route) => route.path !== path);
-  };
-
   const navigate = () => {
     const urlParams = {};
     const currentRoute = routes.find((route) => route.fragmentRegExp.test(window.location.hash));
